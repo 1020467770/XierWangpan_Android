@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/bangding_alipay"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="1"
+        android:background="@drawable/radiusbg"
+        android:gravity="center" >
+    </LinearLayout>
+
+</LinearLayout>
+
+    <!--<EditText
+                    android:id="@+id/et_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginLeft="50dp"
+                    android:textColor="#9F9FA0"
+                    android:textColorHint="#9F9FA0"
+                    android:maxLines="2"
+                    android:hint=" 用户名"/>-->
+<!--
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+android:paddingBottom="15dp"
+android:paddingTop="15dp"
+android:layout_marginLeft="15dp"
+android:layout_marginRight="15dp"
+android:background="@drawable/radiusbg">
+<EditText
+    android:id="@+id/et_password"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:layout_gravity="center"
+    android:maxLines="2"
+    android:hint=" 密码"
+    android:inputType="textPassword"
+    android:textColor="#9F9FA0"
+    android:textColorHint="#9F9FA0"
+    android:layout_marginLeft="50dp"
+    android:layout_marginRight="50dp"/>
+</LinearLayout>-->

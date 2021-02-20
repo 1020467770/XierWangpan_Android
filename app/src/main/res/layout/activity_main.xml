@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MainActivity">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/layout_toolbar" />
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <LinearLayout
+                android:id="@+id/blankLL"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="horizontal" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/blankLL"
+                app:layout_constraintBottom_toTopOf="@id/blankBottomLL"
+
+                />
+
+            <LinearLayout
+                android:id="@+id/blankBottomLL"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:orientation="horizontal" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floating_button_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:layout_marginBottom="18dp"
+                android:src="@drawable/go_back"
+                app:backgroundTint="@color/colorOriginal"
+                app:borderWidth="0dp"
+                app:elevation="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:pressedTranslationZ="10dp"
+                app:rippleColor="@color/gray" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floating_button_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="18dp"
+                android:layout_marginBottom="18dp"
+                android:src="@drawable/add"
+                app:backgroundTint="@color/colorOriginal"
+                app:borderWidth="0dp"
+                app:elevation="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:pressedTranslationZ="10dp"
+                app:rippleColor="@color/gray" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <!--&lt;!&ndash; 内容区 &ndash;&gt;
+        <LinearLayout
+            app:layout_constraintTop_toBottomOf="@id/drawer_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/main_lineLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:text="内容区"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/btn_open_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="打开左边" />
+
+
+        </LinearLayout>-->
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="220dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/drawer_header"
+            app:menu="@menu/menu_left_drawer" />
+
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+
+
+    />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

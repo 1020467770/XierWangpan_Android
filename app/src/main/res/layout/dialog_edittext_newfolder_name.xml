@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_edittext_dialog_bg"
+    android:padding="20dp"
+
+    >
+    <!--<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="车 主 姓 名 输 入"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#E3A6A6"/>-->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:text=""
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:hint="新建文件夹名"
+        android:textSize="14sp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/shape_edittext_bg"
+        android:id="@+id/edittext_foldername_dialog"
+        />
+</LinearLayout>

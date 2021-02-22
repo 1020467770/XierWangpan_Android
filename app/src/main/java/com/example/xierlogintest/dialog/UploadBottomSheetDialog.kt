@@ -99,15 +99,18 @@ class UploadBottomSheetDialog : BottomSheetDialogFragment(), View.OnClickListene
                         .setView(v)
                         .setPositiveButton("确定", object : DialogInterface.OnClickListener {
                             override fun onClick(dialog: DialogInterface?, which: Int) {
-                                Toast.makeText(
-                                    context,
-                                    "新创建的文件夹名字是${et.text.toString().trim()}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
                                 val folderName = et.text.toString().trim()
                                 if (folderName.isNotEmpty()) {
+                                    Toast.makeText(
+                                        context,
+                                        "新创建的文件夹名字是${et.text.toString().trim()}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                     createNewFolder(folderName)
+                                }else{
+                                    Toast.makeText(context, "您未输入文件名哦，请重试", Toast.LENGTH_SHORT).show()
                                 }
+
                             }
 
                             private fun createNewFolder(fileName: String) {
@@ -235,6 +238,8 @@ class UploadBottomSheetDialog : BottomSheetDialogFragment(), View.OnClickListene
                     ) {
                         Log.d(TAG, "onResponse: succeed")
                         Log.d(TAG, "onResponse: ${body}")
+                        ActivityController.loginUser?.currentContain =
+                            ActivityController.loginUser?.currentContain?.plus(file.length())!!
                         updateRecyclerview()
                     }
 

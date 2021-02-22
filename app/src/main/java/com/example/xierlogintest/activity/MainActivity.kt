@@ -8,6 +8,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -173,6 +175,8 @@ class MainActivity : ToolbarActivity(), NavigationView.OnNavigationItemSelectedL
         if (::viewModel.isInitialized) {
             fileList = viewModel.fileList as ArrayList<BasicFile>
         }
+        updateContainView()
+
     }
 
     override fun onResume() {
@@ -250,12 +254,36 @@ class MainActivity : ToolbarActivity(), NavigationView.OnNavigationItemSelectedL
         //内容点击
         navigation_view.setNavigationItemSelectedListener(this)
 
+        updateContainView()
+
+
+    }
+
+    private fun updateContainView() {
+        val headerView = navigation_view.getHeaderView(0)
+        val tv_user_leftdrawer: TextView = headerView.findViewById(R.id.drawer_left_username)
+        val tv_user_desc_leftdrawer: TextView = headerView.findViewById(R.id.drawer_left_user_desc)
+//        updateContainView()
+        ActivityController.loginUser?.let {
+            var currentContain = it.currentContain
+            var currentString: String = ""
+            if (currentContain / 1024 / 1024 >= 1) {
+                currentContain = currentContain / 1024 / 1024
+                currentString = "${currentContain}MB"
+            } else {
+                currentContain = currentContain / 1024
+                currentString = "${currentContain}KB"
+            }
+            tv_user_leftdrawer.text = it.username.toString()
+            tv_user_desc_leftdrawer.text =
+                "${currentString}/${it.container / 1024 / 1024}MB"
+        }
     }
 
     override fun setToolbar() {
-        if(ActivityController.isOnline == true) {
+        if (ActivityController.isOnline == true) {
             mToolbar.setTitle("个人网盘")
-        }else{
+        } else {
             mToolbar.setTitle("本地网盘")
         }
     }
@@ -292,6 +320,7 @@ class MainActivity : ToolbarActivity(), NavigationView.OnNavigationItemSelectedL
     }
 
     public fun refreshRecyclerView() {
+        updateContainView()
         Log.d(TAG, "refreshRecyclerView: 执行刷新了")
         retrofitApiService.getCurrentPageFiles(
             ActivityController.loginUser!!.id,

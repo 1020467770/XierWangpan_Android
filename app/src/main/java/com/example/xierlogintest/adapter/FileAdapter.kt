@@ -144,7 +144,7 @@ class FileAdapter(val fileList: List<BasicFile>) : RecyclerView.Adapter<FileView
         val file = fileList[position]
 
         if (file.fileType == BasicFile.FILETYPE_PICTURE) {
-            val Uri = "http://10.0.2.2:8080/TESTS/files/" + file.fileName
+            val Uri = "http://39.97.183.4:8080/TESTS/files/" + file.fileName
             Glide
                 .with(holder.iconImage)
                 .load(Uri)

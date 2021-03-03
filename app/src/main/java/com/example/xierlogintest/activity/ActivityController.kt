@@ -23,6 +23,8 @@ object ActivityController {
 
     var currentFolderId: Int = 0
 
+    var COOKIE = ""
+
     fun addActivity(activity: Activity) {
         activities.add(activity)
     }

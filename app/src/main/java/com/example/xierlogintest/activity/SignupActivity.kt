@@ -1,5 +1,6 @@
 package com.example.xierlogintest.activity
 
+import android.app.Application
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
@@ -33,43 +34,47 @@ class SignupActivity : ToolbarActivity() {
         sp_username!!.addTextChangedListener(mTextWatcher)
         srName2 = sr2_name
         retrofitApiService = UtilRetrofitCreator.create(RetrofitApiService::class.java)
-
         sp_signupBtn.setOnClickListener {
             val loginIntent = Intent(this, MainActivity::class.java)
-            retrofitApiService.userSignUp(
-                sp_username.text.toString().trim(),
-                sp_password.text.toString().trim()
-            ).enqueue(object : Callback<User> {
-                override fun onResponse(call: Call<User>, response: Response<User>) {
-                    val responseUser = response.body()
-                    if (responseUser is User) {
-                        Log.d(TAG, "onResponse: succeed")
-                        loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        loginIntent.putExtra("parentFolderId", 0)
+            val username = sp_username.text.toString().trim()
+            val password = sp_password.text.toString().trim()
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(it.context, "用户名或密码不可为空", Toast.LENGTH_SHORT).show()
+            } else {
+                retrofitApiService.userSignUp(
+                    username, password
+                ).enqueue(object : Callback<User> {
+                    override fun onResponse(call: Call<User>, response: Response<User>) {
+                        val responseUser = response.body()
+                        if (responseUser is User) {
+                            Log.d(TAG, "onResponse: succeed")
+                            loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            loginIntent.putExtra("parentFolderId", 0)
 //                        loginIntent.putExtra("user",responseUser)
-                        Log.d(TAG, "onResponse返回的新注册的用户信息如下: ${responseUser}")
-                        ActivityController.loginUser = responseUser
-                        ActivityController.isOnline = true
-                        startActivity(loginIntent)
-                    } else {
-                        Log.d(TAG, "onResponse: ${response.body().toString()}")
-                        Log.d(TAG, "onResponse: 已经存在该用户")
-                        Toast.makeText(it.context, "该用户名已存在", Toast.LENGTH_SHORT).show()
-                        sp_username.text?.clear()
-                        sp_password.text?.clear()
+                            Log.d(TAG, "onResponse返回的新注册的用户信息如下: ${responseUser}")
+                            ActivityController.loginUser = responseUser
+                            ActivityController.isOnline = true
+                            startActivity(loginIntent)
+                        } else {
+                            Log.d(TAG, "onResponse: ${response.body().toString()}")
+                            Log.d(TAG, "onResponse: 已经存在该用户")
+                            Toast.makeText(it.context, "该用户名已存在", Toast.LENGTH_SHORT).show()
+                            sp_username.text?.clear()
+                            sp_password.text?.clear()
+                        }
+                        //startActivity(loginIntent)
                     }
-                    //startActivity(loginIntent)
-                }
 
-                override fun onFailure(call: Call<User>, t: Throwable) {
-                    t.printStackTrace()
-                    Log.d(TAG, "Failed")
-                    Toast.makeText(it.context, "您可能未连接上网络，请使用离线模式登录", Toast.LENGTH_SHORT).show()
-                    ActivityController.isOnline = false
-                }
+                    override fun onFailure(call: Call<User>, t: Throwable) {
+                        t.printStackTrace()
+                        Log.d(TAG, "Failed")
+                        Toast.makeText(it.context, "您可能未连接上网络，请使用离线模式登录", Toast.LENGTH_SHORT).show()
+                        ActivityController.isOnline = false
+                    }
 
-            })
+                })
+            }
         }
     }
 

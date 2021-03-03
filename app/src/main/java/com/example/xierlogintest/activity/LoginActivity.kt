@@ -17,6 +17,7 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.et_username
 import kotlinx.android.synthetic.main.activity_login.loginBtn
+import kotlinx.android.synthetic.main.activity_signup.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -68,43 +69,50 @@ class LoginActivity : ToolbarActivity(), View.OnClickListener {
                 val loginIntent = Intent(this, MainActivity::class.java)
 //                Toast.makeText(this, "you clicked submit", Toast.LENGTH_SHORT).show()
 //                startActivity(loginIntent)
-                val loginUser =
-                    User(et_username.text.toString().trim(), et_password.text.toString().trim())
-                Log.d(TAG, "loginUser = $loginUser")
-                retrofitApiService.userLogin(loginUser).enqueue(object : Callback<User> {
-                    override fun onResponse(call: Call<User>, response: Response<User>) {
-                        Log.d(TAG, "onResponse: ${response.toString()}")
-                        val responseUser = response.body()
-                        Log.d(TAG, "responseUser = ${responseUser.toString()}")
-                        Log.d(TAG, "responseUser is User? = ${responseUser is User}")
+                val username = et_username.text.toString().trim()
+                val password = et_password.text.toString().trim()
+                if (username.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(v.context, "用户名或密码不可为空", Toast.LENGTH_SHORT).show()
+                } else {
+                    val loginUser =
+                        User(username, password)
+                    Log.d(TAG, "loginUser = $loginUser")
+                    retrofitApiService.userLogin(loginUser).enqueue(object : Callback<User> {
+                        override fun onResponse(call: Call<User>, response: Response<User>) {
+                            Log.d(TAG, "onResponse: ${response.toString()}")
+                            val responseUser = response.body()
+                            Log.d(TAG, "responseUser = ${responseUser.toString()}")
+                            Log.d(TAG, "responseUser is User? = ${responseUser is User}")
 
-                        if (responseUser is User) {
-                            Log.d(TAG, "onResponse: succeed")
-                            loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                            loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            loginIntent.putExtra("parentFolderId", 0)
-                            Log.d(TAG, "onResponse: ${responseUser}")
+                            if (responseUser is User) {
+                                Log.d(TAG, "onResponse: succeed")
+                                loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                loginIntent.putExtra("parentFolderId", 0)
+                                Log.d(TAG, "onResponse: ${responseUser}")
 //                            loginIntent.putExtra("user",responseUser)
-                            ActivityController.loginUser = responseUser
-                            ActivityController.isOnline = true
-                            startActivity(loginIntent)
-                        } else {
-                            Log.d(TAG, "onResponse: ${response.body().toString()}")
-                            Log.d(TAG, "onResponse: 用户名或密码错误")
-                            Toast.makeText(v.context, "用户名或密码错误", Toast.LENGTH_SHORT).show()
-                            et_username.text?.clear()
-                            et_password.text?.clear()
-                        }
+                                ActivityController.loginUser = responseUser
+                                ActivityController.isOnline = true
+                                startActivity(loginIntent)
+                            } else {
+                                Log.d(TAG, "onResponse: ${response.body().toString()}")
+                                Log.d(TAG, "onResponse: 用户名或密码错误")
+                                Toast.makeText(v.context, "用户名或密码错误", Toast.LENGTH_SHORT).show()
+                                et_username.text?.clear()
+                                et_password.text?.clear()
+                            }
 //                        startActivity(loginIntent)
-                    }
+                        }
 
-                    override fun onFailure(call: Call<User>, t: Throwable) {
-                        t.printStackTrace()
-                        Toast.makeText(v.context, "您可能未连接上网络，请使用离线模式登录", Toast.LENGTH_SHORT).show()
-                        ActivityController.isOnline = false
-                        Log.d(TAG, "Failed")
-                    }
-                })
+                        override fun onFailure(call: Call<User>, t: Throwable) {
+                            t.printStackTrace()
+                            Toast.makeText(v.context, "您可能未连接上网络，请使用离线模式登录", Toast.LENGTH_SHORT)
+                                .show()
+                            ActivityController.isOnline = false
+                            Log.d(TAG, "Failed")
+                        }
+                    })
+                }
             }
 
             R.id.et_signBtn -> {

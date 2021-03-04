@@ -301,6 +301,7 @@ class MainActivity : ToolbarActivity(), NavigationView.OnNavigationItemSelectedL
                 exitIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 exitIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 ActivityController.loginUser = null
+                ActivityController.COOKIE = ""
                 startActivity(exitIntent)
             }
         }

@@ -81,11 +81,16 @@ class LoginActivity : ToolbarActivity(), View.OnClickListener {
                         override fun onResponse(call: Call<User>, response: Response<User>) {
                             Log.d(TAG, "onResponse: ${response.toString()}")
                             val responseUser = response.body()
+                            Log.d(TAG, "onResponse: responseHeaders = ${response.headers()}")
                             Log.d(TAG, "responseUser = ${responseUser.toString()}")
                             Log.d(TAG, "responseUser is User? = ${responseUser is User}")
 
                             if (responseUser is User) {
                                 Log.d(TAG, "onResponse: succeed")
+                                val cookie = response.raw().header("Set-Cookie")
+                                if (cookie != null && ActivityController.COOKIE != cookie) {
+                                    ActivityController.COOKIE = cookie
+                                }
                                 loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                 loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                 loginIntent.putExtra("parentFolderId", 0)

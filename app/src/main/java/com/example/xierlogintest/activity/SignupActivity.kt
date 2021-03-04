@@ -48,6 +48,10 @@ class SignupActivity : ToolbarActivity() {
                         val responseUser = response.body()
                         if (responseUser is User) {
                             Log.d(TAG, "onResponse: succeed")
+                            val cookie = response.raw().header("Set-Cookie")
+                            if (cookie != null && ActivityController.COOKIE != cookie) {
+                                ActivityController.COOKIE = cookie
+                            }
                             loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                             loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             loginIntent.putExtra("parentFolderId", 0)

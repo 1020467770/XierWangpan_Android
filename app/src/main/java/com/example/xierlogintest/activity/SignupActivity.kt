@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
 import com.example.xierlogintest.R
+import com.example.xierlogintest.dao.UserDao
 import com.example.xierlogintest.model.User
 import com.example.xierlogintest.network.service.RetrofitApiService
 import com.example.xierlogintest.network.utils.UtilRetrofitCreator
@@ -15,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_signup.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.regex.Pattern
 
 class SignupActivity : ToolbarActivity() {
     private val TAG = "SignupActivity"
@@ -38,8 +40,11 @@ class SignupActivity : ToolbarActivity() {
             val loginIntent = Intent(this, MainActivity::class.java)
             val username = sp_username.text.toString().trim()
             val password = sp_password.text.toString().trim()
+            val spUser = User(username, password)
             if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(it.context, "用户名或密码不可为空", Toast.LENGTH_SHORT).show()
+            } else if (srName2.error != null) {
+                Toast.makeText(it.context, "用户名格式错误", Toast.LENGTH_SHORT).show()
             } else {
                 retrofitApiService.userSignUp(
                     username, password
@@ -59,6 +64,7 @@ class SignupActivity : ToolbarActivity() {
                             Log.d(TAG, "onResponse返回的新注册的用户信息如下: ${responseUser}")
                             ActivityController.loginUser = responseUser
                             ActivityController.isOnline = true
+                            UserDao.saveUser(spUser)
                             startActivity(loginIntent)
                         } else {
                             Log.d(TAG, "onResponse: ${response.body().toString()}")
@@ -67,7 +73,6 @@ class SignupActivity : ToolbarActivity() {
                             sp_username.text?.clear()
                             sp_password.text?.clear()
                         }
-                        //startActivity(loginIntent)
                     }
 
                     override fun onFailure(call: Call<User>, t: Throwable) {
@@ -85,9 +90,16 @@ class SignupActivity : ToolbarActivity() {
     private val mTextWatcher: TextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        val pattern = "^[A-Za-z0-9]+$"
         override fun afterTextChanged(s: Editable) {
             if (srName2.editText!!.text.length > srName2.counterMaxLength)
                 srName2.error = "输入内容超过上限"
+            else if (srName2.editText!!.text.length > 0 && !Pattern.matches(
+                    pattern,
+                    srName2.editText!!.text
+                )
+            )
+                srName2.error = "用户名存在非法字符"
             else
                 srName2.error = null
         }

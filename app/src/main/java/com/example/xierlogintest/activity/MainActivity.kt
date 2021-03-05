@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.xierlogintest.R
 import com.example.xierlogintest.ViewModel.MainViewModel
 import com.example.xierlogintest.adapter.FileAdapter
+import com.example.xierlogintest.dao.UserDao
 import com.example.xierlogintest.database.AppDatabase
 import com.example.xierlogintest.dialog.UploadBottomSheetDialog
 import com.example.xierlogintest.model.BasicFile
@@ -211,7 +212,6 @@ class MainActivity : ToolbarActivity(), NavigationView.OnNavigationItemSelectedL
                 for (basicFile in fileList) {
                     Log.d(TAG, "onResponse: ${basicFile.toString()}")
                 }
-
             }
 
             override fun onFailure(call: Call<List<BasicFile>>, t: Throwable) {
@@ -255,7 +255,6 @@ class MainActivity : ToolbarActivity(), NavigationView.OnNavigationItemSelectedL
         navigation_view.setNavigationItemSelectedListener(this)
 
         updateContainView()
-
 
     }
 
@@ -302,6 +301,7 @@ class MainActivity : ToolbarActivity(), NavigationView.OnNavigationItemSelectedL
                 exitIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 ActivityController.loginUser = null
                 ActivityController.COOKIE = ""
+                UserDao.removeUser()
                 startActivity(exitIntent)
             }
         }

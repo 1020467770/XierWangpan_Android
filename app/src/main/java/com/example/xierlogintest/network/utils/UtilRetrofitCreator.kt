@@ -1,5 +1,6 @@
 package com.example.xierlogintest.network.utils
 
+import com.example.xierlogintest.XierWangpanApplication
 import com.example.xierlogintest.activity.ActivityController
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -8,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object UtilRetrofitCreator {
     //39.97.183.4
-    private const val BASE_URL = "http://10.0.2.2:8080/TESTS/"
+    private const val BASE_URL = "http://${XierWangpanApplication.BASE_URI}/TESTS/"
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)

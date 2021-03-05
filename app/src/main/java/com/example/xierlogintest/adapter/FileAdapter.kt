@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.xierlogintest.R
+import com.example.xierlogintest.XierWangpanApplication
 import com.example.xierlogintest.activity.ActivityController
 import com.example.xierlogintest.activity.MainActivity
 import com.example.xierlogintest.adapter.viewHolder.FileViewHolder
@@ -149,7 +150,7 @@ class FileAdapter(val fileList: List<BasicFile>) : RecyclerView.Adapter<FileView
         val file = fileList[position]
 
         if (file.fileType == BasicFile.FILETYPE_PICTURE) {
-            val Uri = "http://10.0.2.2:8080/TESTS/files/" + file.fileName
+            val Uri = "http://${XierWangpanApplication.BASE_URI}/TESTS/files/" + file.fileName
             Glide
                 .with(holder.iconImage)
                 .load(Uri)

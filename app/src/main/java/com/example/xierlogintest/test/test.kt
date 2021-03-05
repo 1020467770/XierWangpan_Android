@@ -1,10 +1,14 @@
 package com.example.xierlogintest.test
 
+import java.util.regex.Pattern
 
 
 fun main() {
-    val fileName = "9d87f8e2915884211aec316553e8c2d5@IMG_20210217_140028.jpg"
-    val start = fileName.lastIndexOf("@") + 1
-    val name = fileName.substring(start)
-    println(name)
+    val s1 = "dakowd!."
+    val s2 = "dawdadz123"
+    val s3 = "dawdadz."
+    val pattern = "^[A-Za-z0-9]+$"
+    println(Pattern.matches(pattern,s1))
+    println(Pattern.matches(pattern,s2))
+    println(Pattern.matches(pattern,s3))
 }
